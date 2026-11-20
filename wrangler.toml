@@ -1,0 +1,43 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "edge-status"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+# Keep a short log of requests in the Cloudflare dashboard. Remove if you prefer less telemetry.
+[observability]
+enabled = true
+
+[vars]
+# Shown in the page title and the JSON payload.
+PAGE_TITLE = "Edge Status"
+
+# Comma-free JSON array of what to watch. Each entry supports:
+#   name      display name
+#   url       http(s) endpoint to check            (required)
+#   method    "GET" (default) or "HEAD"
+#   expect    array of acceptable status codes, e.g. [200, 204]; omit for any 2xx
+#   keyword   string the response body must contain, e.g. "\"ok\":true"
+#   slowMs    latency above this marks the target "degraded" (default 800)
+#   timeoutMs request timeout in ms (default 8000)
+TARGETS = "[{\"name\":\"Cloudflare 1.1.1.1\",\"url\":\"https://1.1.1.1/cdn-cgi/trace\",\"expect\":[200],\"slowMs\":400},{\"name\":\"GitHub API\",\"url\":\"https://api.github.com/zen\",\"expect\":[200],\"slowMs\":800},{\"name\":\"Example API\",\"url\":\"https://httpbin.org/status/200\",\"expect\":[200],\"slowMs\":1200}]"
+
+# Global tuning (all optional).
+SLOW_MS = "800"          # default degraded threshold
+TIMEOUT_MS = "8000"      # default request timeout
+CACHE_TTL = "30"         # seconds a result is reused for all visitors
+REFRESH_SECONDS = "30"   # browser auto-refresh interval
+HISTORY_SIZE = "60"      # samples kept per target when KV is bound
+HISTORY_INTERVAL_MS = "300000" # at most one history sample per 5 minutes
+HIDE_LATENCY = "false"   # "true" hides latency figures
+
+# Optional: bind a KV namespace to keep uptime history and draw the little bar chart.
+# Without it everything else works; the uptime column simply shows "—".
+#
+#   npx wrangler kv namespace create EDGE_STATUS_KV
+#
+# then paste the printed id below and uncomment:
+#
+# [[kv_namespaces]]
+# binding = "EDGE_STATUS_KV"
+# id = "<your-namespace-id>"

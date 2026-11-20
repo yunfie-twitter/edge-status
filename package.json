@@ -1,0 +1,44 @@
+{
+  "name": "edge-status",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A zero-dependency status page and health-check API for Cloudflare Workers.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "check": "node --check src/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "cloudflare-workers",
+    "status-page",
+    "uptime-monitor",
+    "serverless",
+    "javascript"
+  ],
+  "homepage": "https://github.com/hjddl/edge-status#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hjddl/edge-status.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hjddl/edge-status/issues"
+  },
+  "author": "hjddl",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "wrangler": "^4.165.0"
+  }
+}
